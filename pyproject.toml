@@ -1,0 +1,15 @@
+[tool.poetry]
+name = "file-storage"
+version = "0.0.1"
+description = ""
+authors = ["Ilia Demintsev <idemintsev@gmail.com>"]
+readme = "README.md"
+packages = [{include = "file_storage"}]
+
+[tool.poetry.dependencies]
+python = "^3.11"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
