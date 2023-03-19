@@ -1,13 +1,16 @@
 import hashlib
 import os
-import aiofiles
-from pathlib import Path
 import shutil
+from pathlib import Path, PosixPath
+from typing import Generator
+
+import aiofiles
+from aiohttp.multipart import BodyPartReader
 
 from file_storage_service.settings import Config
 
 
-async def upload_file_to_server(obj, username) -> str:
+async def upload_file_to_server(obj: BodyPartReader, username: str) -> str:
     hash_object = hashlib.new('sha256')
     try:
         async with aiofiles.tempfile.NamedTemporaryFile(
@@ -28,7 +31,7 @@ async def upload_file_to_server(obj, username) -> str:
         return ''
 
 
-async def reader_generator(path):
+async def reader_generator(path: PosixPath) -> Generator:
     async with aiofiles.open(path, 'rb') as f:
         while True:
             _data = await f.read(Config.chunk_size)

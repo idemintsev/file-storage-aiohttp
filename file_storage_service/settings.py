@@ -3,7 +3,6 @@ from pathlib import Path
 
 from attrs import frozen
 
-
 Bytes = int
 TWO_Mb = 2 * 1024 * 1024
 
