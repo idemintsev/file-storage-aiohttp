@@ -7,7 +7,10 @@ from typing import AsyncGenerator
 import aiofiles
 from aiohttp.multipart import BodyPartReader
 
+from file_storage_service.logger import logging
 from file_storage_service.settings import Config
+
+logger = logging.getLogger('utils')
 
 
 async def upload_file_to_server(obj: BodyPartReader, username: str) -> str:
@@ -28,6 +31,7 @@ async def upload_file_to_server(obj: BodyPartReader, username: str) -> str:
             os.replace(str(tmp_f.name), f'{path}/{filename}.{username}')
         return filename
     except Exception as exc:
+        logger.exception(f'{exc.__class__.__name__}: {str(exc)}')
         return ''
 
 
@@ -61,5 +65,5 @@ async def delete_file_from_server(username: str, file_name: str) -> str:
                 shutil.rmtree(path_to_file.parent)
             result = file_name
         except FileNotFoundError as exc:
-            pass
+            logger.exception(f'{exc.__class__.__name__}: {str(exc)}')
     return result
