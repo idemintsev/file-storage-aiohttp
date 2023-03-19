@@ -1,4 +1,4 @@
-async def check_user(username: str = None, password: str = None) -> bool:
+async def check_user(username: str, password: str) -> bool:
     if username and password:
         return True
     return False

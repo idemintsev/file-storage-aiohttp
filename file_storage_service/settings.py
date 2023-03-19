@@ -22,7 +22,7 @@ class FileStorageConfig:
 class AppConfig:
     """Global app config."""
     host: str = os.getenv('APP_HOST', 'localhost')
-    port: int = os.getenv('APP_PORT', 8000)
+    port: int = int(os.getenv('APP_PORT', 8000))
     file_storage: FileStorageConfig = FileStorageConfig()
     chunk_size: Bytes = int(os.getenv('CHUNK_SIZE', TWO_Mb))
     log_level: str = os.getenv('APP_LOG_LEVEL', 'ERROR').upper()

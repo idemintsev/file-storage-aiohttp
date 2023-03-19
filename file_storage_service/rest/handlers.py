@@ -16,8 +16,8 @@ async def upload_file(request: 'web.Request') -> 'web.Response':
 
 async def download_file(request: 'web.Request') -> 'web.StreamResponse':
     """Send file from server to client by chunks."""
-    file_name = request.url.raw_parts[-1]
-    if file := find_file_on_server(file_name):
+    file_name: str = request.url.raw_parts[-1]
+    if file := await find_file_on_server(file_name):
         return web.Response(body=reader_generator(file), status=200)
     return web.Response(text='file not found', status=404)
 
@@ -26,7 +26,7 @@ async def delete_file(request: 'web.Request') -> 'web.Response':
     """Delete file from server."""
     file_name = request.url.raw_parts[-1]
     username = request.username
-    if res := delete_file_from_server(username, file_name):
+    if res := await delete_file_from_server(username, file_name):
         return web.Response(text=f'deleted {res}', status=200)
     return web.Response(text='file not found', status=404)
 
