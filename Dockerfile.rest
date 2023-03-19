@@ -1,0 +1,23 @@
+FROM python:3.11-buster
+
+RUN adduser --disabled-password --home /app worker
+USER worker
+WORKDIR /app
+
+ENV PYTHONDONTWRITEBYTECODE 1 \
+    PYTHONFAULTHANDLER 1
+ENV POETRY_HOME="/app/.poetry" \
+    POETRY_VIRTUALENVS_IN_PROJECT=true
+ENV PATH="$PATH:$POETRY_HOME/bin"
+
+COPY pyproject.toml poetry.lock README.md ./
+COPY file_storage_service/ ./file_storage_service
+COPY store/ ./store
+COPY gateway.py .
+COPY --chown=worker:worker store .
+COPY deploy/gunicorn.ini ./gunicorn.ini
+
+RUN curl -sSL https://install.python-poetry.org | python3 -
+RUN poetry install --without dev
+
+EXPOSE 8080

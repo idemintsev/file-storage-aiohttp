@@ -1,0 +1,15 @@
+version: "3.7"
+
+services:
+  rest:
+    build:
+      context: .
+      dockerfile: Dockerfile.rest
+    restart: "no"
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./store:/app/store
+    env_file:
+      - deploy/dev.env
+    command: poetry run gunicorn gateway:asgi -c gunicorn.ini

@@ -1,6 +1,6 @@
 import os
 import subprocess
-import click
+import asyncclick as click
 import uvloop
 
 from file_storage_service import asgi  # noqa
@@ -20,4 +20,4 @@ def appserver():
 
 if __name__ == '__main__':
     uvloop.install()
-    cli()
+    cli(_anyio_backend='asyncio')
