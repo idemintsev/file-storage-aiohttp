@@ -1,0 +1,1 @@
+appserver: poetry run python gateway.py appserver
