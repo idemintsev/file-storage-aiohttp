@@ -35,15 +35,6 @@ async def upload_file_to_server(obj: BodyPartReader, username: str) -> str:
         return ''
 
 
-async def reader_generator(path: Path) -> AsyncGenerator:
-    async with aiofiles.open(path, 'rb') as f:
-        while True:
-            _data = await f.read(Config.chunk_size)
-            if not _data:
-                break
-            yield _data
-
-
 async def find_file_on_server(file_name: str) -> None | Path:
     path_to_file = Path.joinpath(Config.file_storage.upload_folder, file_name[0:2], file_name)
     if path_to_file.parent.is_dir():

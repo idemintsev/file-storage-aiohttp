@@ -18,6 +18,7 @@ aiofiles = "23.1.*"
 types-aiofiles = "23.1.*"
 asyncclick = "8.1.*"
 anyio = "3.6.*"
+aiohttp-swagger = "1.0.*"
 
 
 [tool.poetry.group.dev.dependencies]

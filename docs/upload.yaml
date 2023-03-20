@@ -1,0 +1,25 @@
+tags:
+- upload file
+summary: Upload file
+description: Upload file to server. Using Basic Auth.
+consumes:
+  - multipart/form-data
+parameters:
+  - name: file
+    in: formData
+    description: The uploaded file data
+    required: true
+    type: file
+  - name: Authorization
+    in: header
+    type: string
+    description: an authorization header
+    required: true
+    default: Basic ZGVtbzpwQDU1dzByZA==
+responses:
+  "201":
+    description: Successful operation. Return filename (string) in response body. Use this filename for downloading and deleting file from server.
+  "403":
+    description: There are no username/password in requests headers (Basic Auth).
+  "400":
+    description: During uploading file occur error. Return try to upload again.

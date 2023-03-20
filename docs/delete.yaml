@@ -1,0 +1,23 @@
+tags:
+- delete file
+summary: Delete file
+description: Delete file from server. Using Basic Auth.
+parameters:
+- name: file_name
+  in: path
+  description: The file name
+  required: true
+  type: string
+- name: Authorization
+  in: header
+  type: string
+  description: an authorization header
+  required: true
+  default: Basic ZGVtbzpwQDU1dzByZA==
+responses:
+  "200":
+    description: Successful operation. Return deleted filename (string) in response body.
+  "403":
+    description: There are no username/password in requests headers (Basic Auth).
+  "404":
+    description: File not found or current user didn't upload this file to server.

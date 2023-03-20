@@ -19,6 +19,11 @@ class FileStorageConfig:
 
 
 @frozen
+class SwaggerConfig:
+    path_to_docs: Path = Path.joinpath(Path(__file__).absolute().parent.parent, 'docs')
+
+
+@frozen
 class AppConfig:
     """Global app config."""
     host: str = os.getenv('APP_HOST', 'localhost')
@@ -26,7 +31,8 @@ class AppConfig:
     file_storage: FileStorageConfig = FileStorageConfig()
     chunk_size: Bytes = int(os.getenv('CHUNK_SIZE', TWO_Mb))
     log_level: str = os.getenv('APP_LOG_LEVEL', 'ERROR').upper()
+    swagger: SwaggerConfig = SwaggerConfig()
 
 
-# Initialising VAD config with starting parameters
+# Initialising config with starting parameters
 Config = AppConfig()
