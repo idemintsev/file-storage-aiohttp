@@ -10,6 +10,7 @@ ENV POETRY_HOME="/app/.poetry" \
     POETRY_VIRTUALENVS_IN_PROJECT=true
 ENV PATH="$PATH:$POETRY_HOME/bin"
 
+COPY docs/ ./docs
 COPY pyproject.toml poetry.lock README.md ./
 COPY file_storage_service/ ./file_storage_service
 COPY store/ ./store
