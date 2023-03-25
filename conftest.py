@@ -1,9 +1,6 @@
 import pytest
 
 from file_storage_service import asgi
-from file_storage_service.settings import Config
-
-Config.mode = 'test'
 
 
 @pytest.fixture
