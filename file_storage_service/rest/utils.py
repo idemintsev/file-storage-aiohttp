@@ -2,7 +2,6 @@ import hashlib
 import os
 import shutil
 from pathlib import Path
-from typing import AsyncGenerator
 
 import aiofiles
 from aiohttp.multipart import BodyPartReader

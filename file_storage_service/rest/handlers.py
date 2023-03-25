@@ -1,9 +1,10 @@
 from aiohttp import web
 from aiohttp_swagger import *
 
+from docs.pathes import paths_to_swagger_docs
 from file_storage_service.logger import logging
 from file_storage_service.rest.utils import upload_file_to_server, find_file_on_server, delete_file_from_server
-from docs.pathes import paths_to_swagger_docs
+from file_storage_service.settings import Config
 
 logger = logging.getLogger('rest')
 
@@ -32,7 +33,7 @@ async def download_file(request: 'web.Request') -> 'web.StreamResponse':
         resp.enable_chunked_encoding()
         await resp.prepare(request)
         with open(file, 'rb') as f:
-            for chunk in iter(lambda: f.read(1024), b""):
+            for chunk in iter(lambda: f.read(Config.chunk_size), b""):
                 await resp.write(chunk)
         await resp.write_eof()
         logger.info(f'Downloaded file {filename}')
