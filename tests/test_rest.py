@@ -25,28 +25,41 @@ async def test_delete_file_unauthorized_user(rest_client):
 
 # positive cases
 async def test_upload_file_authorized_user(rest_client, mocker):
-    mock_upload = mocker.patch(
+    mock_upload_file_to_server = mocker.patch(
         'file_storage_service.rest.handlers.upload_file_to_server',
         return_value='98fd8d7d7e551b6bc13d2bc67c08fd0e7b1aff1e8bb07ba0c82984aa5c39900e'
     )
     res = await rest_client.post('/files', auth=BasicAuth('user', 'password'), data={"file": b"anyfile"})
     res_trafaret = t.Atom('98fd8d7d7e551b6bc13d2bc67c08fd0e7b1aff1e8bb07ba0c82984aa5c39900e')
 
-    assert mock_upload.call_count == 1
+    assert mock_upload_file_to_server.call_count == 1
     assert res.status == 201
     res_trafaret.check(await res.text())
 
 
 async def test_download_file_authorized_user(rest_client, mocker):
-    mock_upload = mocker.patch(
+    mock_find_file_on_server = mocker.patch(
         'file_storage_service.rest.handlers.find_file_on_server'
     )
     mocked_open = mocker.patch('file_storage_service.rest.handlers.open', mock_open(read_data=b"anyfile"))
     res = await rest_client.get('/files/file_hash', auth=BasicAuth('user', 'password'))
     res_trafaret = t.Bytes(b"anyfile")
 
-    assert mock_upload.call_count == 1
+    assert mock_find_file_on_server.call_count == 1
     assert mocked_open.call_count == 1
     assert res.status == 200
     results = [data async for data in res.content.iter_chunked(1024)]
     res_trafaret.check(*results)
+
+
+async def test_delete_file_authorized_user(rest_client, mocker):
+    mock_delete_file_from_server = mocker.patch(
+        'file_storage_service.rest.handlers.delete_file_from_server',
+        return_value='98fd8d7d7e551b6bc13d2bc67c08fd0e7b1aff1e8bb07ba0c82984aa5c39900e'
+    )
+    res = await rest_client.delete('/files/file_hash', auth=BasicAuth('user', 'password'))
+    res_trafaret = t.Atom('deleted 98fd8d7d7e551b6bc13d2bc67c08fd0e7b1aff1e8bb07ba0c82984aa5c39900e')
+
+    assert mock_delete_file_from_server.call_count == 1
+    assert res.status == 200
+    res_trafaret.check(await res.text())
