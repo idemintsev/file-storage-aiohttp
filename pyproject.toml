@@ -28,6 +28,7 @@ pytest = "7.2.*"
 trafaret = "2.*"
 pytest-aiohttp = "1.*"
 pytest-mock = "3.*"
+coverage = "7.2.*"
 
 [build-system]
 requires = ["poetry-core"]
